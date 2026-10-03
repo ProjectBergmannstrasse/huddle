@@ -147,6 +147,8 @@ svg{width:20px;height:20px;fill:currentColor;flex:none}
 .room-top{white-space:nowrap}
 .room-top .rec{display:flex;align-items:center;gap:8px;color:var(--fg);font-weight:600;min-width:0;overflow:hidden}
 .room-top .rec #barCode{overflow:hidden;text-overflow:ellipsis}
+#barCode,#lobbyCode,.recent-list .chip,#codeIn{text-transform:uppercase;letter-spacing:2px}
+#codeIn::placeholder{letter-spacing:4px;opacity:.6}
 .room-top .sep{opacity:.4}
 .room-top .sp{flex:1}
 .stage{flex:1;display:flex;min-height:0;position:relative}
@@ -355,10 +357,10 @@ svg{width:20px;height:20px;fill:currentColor;flex:none}
       <p class="sub">Start a room, send the link to anyone. They type their name and join — no accounts, no app. Every room link keeps working forever.</p>
       <div class="actions">
         <button class="btn btn-solid" id="newBtn"><svg><use href="#i-video"/></svg>New meeting</button>
-        <div class="codebox" id="codeBox"><span class="pr">&gt;</span><input id="codeIn" placeholder="code or link" autocomplete="off" spellcheck="false" aria-label="Meeting code or link"><button class="go" id="joinCodeBtn" disabled>Join</button></div>
+        <div class="codebox" id="codeBox"><span class="pr">&gt;</span><input id="codeIn" placeholder="ABC" autocomplete="off" spellcheck="false" aria-label="3-letter room code"><button class="go" id="joinCodeBtn" disabled>Join</button></div>
       </div>
       <div class="recent hidden" id="recentWrap"><h5>Your recent rooms</h5><div class="recent-list" id="recentList"></div></div>
-      <div class="feats"><span><b>+</b> screen share</span><span><b>+</b> chat</span><span><b>+</b> any custom room name</span><span><b>+</b> works on phones</span></div>
+      <div class="feats"><span><b>+</b> screen share</span><span><b>+</b> chat</span><span><b>+</b> 3-letter room codes</span><span><b>+</b> works on phones</span></div>
     </div>
     <div class="mock-wrap" aria-hidden="true">
       <div class="mock">
@@ -495,17 +497,18 @@ const fmtTime = d => { try { return d.toLocaleTimeString([], {hour:'numeric', mi
 const fmtDur = ms => { const s=Math.max(0,Math.floor(ms/1000)), h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h? h+':'+String(m).padStart(2,'0') : String(m).padStart(2,'0'))+':'+String(x).padStart(2,'0'); };
 
 function newCode(){
-  const L='abcdefghijkmnopqrstuvwxyz';
-  const p=n=>Array.from(crypto.getRandomValues(new Uint8Array(n)),b=>L[b%L.length]).join('');
-  return `${p(3)}-${p(4)}-${p(3)}`;
+  const L='abcdefghijklmnopqrstuvwxyz';
+  let s=''; const r=crypto.getRandomValues(new Uint8Array(16));
+  for (const b of r) { if (b < 234) s += L[b % 26]; if (s.length === 3) break; }   // unbiased pick
+  return s.length === 3 ? s : newCode();
 }
 function cleanCode(raw){
   let s = String(raw||'').trim();
   const m = s.match(/#([^#\s]+)$/); if (m) s = m[1];
   s = s.split('?')[0];
   try { s = decodeURIComponent(s); } catch {}
-  s = s.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'').replace(/-+/g,'-').replace(/^-|-$/g,'');
-  return s.length >= 3 && s.length <= 48 ? s : '';
+  s = s.toLowerCase().replace(/[^a-z]/g,'');
+  return /^[a-z]{3}$/.test(s) ? s : '';
 }
 const roomLink = c => location.href.split('#')[0] + '#' + c;
 
@@ -574,8 +577,31 @@ window.addEventListener('hashchange', route);
 /* ================= HOME ================= */
 function tickClock(){ const d=new Date(); let ds=''; try { ds = d.toLocaleDateString([], {weekday:'short', month:'short', day:'numeric'}); } catch {} $('clock').textContent = fmtTime(d)+' · '+ds; }
 tickClock(); setInterval(tickClock, 15000);
-$('newBtn').onclick = () => { location.hash = newCode(); };
-$('codeIn').addEventListener('input', () => { $('joinCodeBtn').disabled = !cleanCode($('codeIn').value); });
+// pick a 3-letter code nobody is using right now
+function roomIsEmpty(c){
+  return new Promise(res => {
+    if (!sb) return res(true);
+    const ch = sb.channel('huddle-' + c, { config: { presence: { key: 'probe-' + rid() } } });
+    let done = false;
+    const finish = v => { if (done) return; done = true; try { sb.removeChannel(ch); } catch {} res(v); };
+    ch.on('presence', { event:'sync' }, () => finish(Object.keys(ch.presenceState()).length === 0))
+      .subscribe(s => { if (s === 'CHANNEL_ERROR' || s === 'TIMED_OUT') finish(true); });
+    setTimeout(() => finish(Object.keys(ch.presenceState()).length === 0), 1500);
+  });
+}
+$('newBtn').onclick = async () => {
+  const b = $('newBtn'); if (b.disabled) return;
+  b.disabled = true; const label = b.lastChild.textContent; b.lastChild.textContent = 'Finding a free code…';
+  let c = newCode();
+  for (let i = 0; i < 6; i++) { if (await roomIsEmpty(c)) break; c = newCode(); }
+  b.disabled = false; b.lastChild.textContent = label;
+  location.hash = c;
+};
+$('codeIn').addEventListener('input', () => {
+  const el = $('codeIn');
+  if (!/[#\/:.]/.test(el.value)) el.value = el.value.replace(/[^a-z]/gi,'').slice(0,3).toUpperCase();
+  $('joinCodeBtn').disabled = !cleanCode(el.value);
+});
 $('codeIn').addEventListener('keydown', e => { if (e.key==='Enter') $('joinCodeBtn').click(); });
 $('joinCodeBtn').onclick = () => {
   const c = cleanCode($('codeIn').value);
