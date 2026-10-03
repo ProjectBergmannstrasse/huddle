@@ -332,6 +332,43 @@ html[data-theme="light"] .cb.off,html[data-theme="light"] .cb.on,html[data-theme
 .tb{border-radius:50%;width:36px;height:36px}
 @media (max-width:640px){ .bar{padding:8px 10px;gap:10px} .cb,.cb.leave{width:52px;height:52px} }
 
+
+/* ---- accounts + saved chat ---- */
+.acctBtn .acctName{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acctBtn.in{border-color:var(--fg)}
+.tb.acctBtn.in{background:var(--fg);color:var(--inv)}
+.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:fade .2s var(--ease)}
+.modal .sheet{position:relative;width:min(400px,100%);background:var(--card);border:1px solid var(--line2);border-radius:22px;padding:22px;box-shadow:0 30px 80px var(--shade);animation:sheetIn .3s var(--spring)}
+.modal .x{position:absolute;right:12px;top:12px}
+.modal h3{font-size:20px;letter-spacing:-.5px;margin:18px 0 6px}
+.acct-sub{color:var(--muted);font-size:12px;line-height:1.6;margin-bottom:16px}
+.acct-tabs{margin-right:40px}
+.acct-tabs.in .pill{transform:translateX(calc(100% + 4px))}
+#acctForm .btn{width:100%}
+.me-av{width:64px;height:64px;border-radius:50%;background:var(--fg);color:var(--inv);display:grid;place-items:center;font-size:26px;font-weight:700;margin:6px auto 0}
+#acctIn{text-align:center}
+#acctIn .btn{width:100%}
+.chat-lock{text-align:center;padding:30px 6px}
+.chat-lock .lock-ic{width:56px;height:56px;border-radius:50%;background:var(--card2);border:1px solid var(--line2);display:grid;place-items:center;margin:0 auto 14px}
+.chat-lock h4{font-size:15px;margin-bottom:8px}
+.chat-lock p{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:18px}
+.chat-lock .btn{width:100%;margin-bottom:8px}
+.attach{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:var(--muted);flex:none;margin-left:-8px;transition:background .15s,color .15s,transform .15s var(--ease)}
+.attach:hover{background:var(--card2);color:var(--fg)}
+.attach:active{transform:scale(.9)}
+.attach.busy{animation:pulse 1s infinite}
+.fchip{display:flex;align-items:center;gap:10px;margin-top:6px;padding:9px 10px;border:1px solid var(--line2);border-radius:12px;background:var(--bg2);cursor:pointer;max-width:100%;transition:border-color .15s,transform .15s var(--ease)}
+.fchip:hover{border-color:var(--fg)}
+.fchip:active{transform:scale(.98)}
+.fchip .fi{width:32px;height:32px;border-radius:8px;background:var(--card2);display:grid;place-items:center;flex:none}
+.fchip .fn{flex:1;min-width:0;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fchip .fs{font-size:11px;color:var(--muted);flex:none}
+.fimg{display:block;margin-top:6px;max-width:100%;max-height:220px;border-radius:12px;border:1px solid var(--line);cursor:zoom-in;background:var(--bg2);min-height:60px}
+.msg.pending{opacity:.55}
+.msg .day{display:none}
+.daysep{text-align:center;font-size:10px;letter-spacing:2px;color:var(--muted);margin:18px 0 6px}
+.loadmore{display:block;margin:6px auto;font-size:11px;color:var(--muted);text-decoration:underline}
+
 /* tooltips */
 [data-tip]{position:relative}
 @media (hover:hover){
@@ -393,6 +430,11 @@ html[data-theme="light"] .cb.off,html[data-theme="light"] .cb.on,html[data-theme
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M16 9V4h1V2H7v2h1v5l-2 2v2h5.2v7h1.6v-7H18v-2z"/></symbol>
   <symbol id="i-full" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7zm-2-4h2V7h3V5H5zm12 7h-3v2h5v-5h-2zM14 5v2h3v3h2V5z"/></symbol>
   <symbol id="i-share" viewBox="0 0 24 24"><path d="M18 16.08a2.9 2.9 0 0 0-1.96.77L8.91 12.7a3.3 3.3 0 0 0 0-1.39l7.05-4.11A3 3 0 1 0 15 5a3.3 3.3 0 0 0 .09.7L8.04 9.81a3 3 0 1 0 0 4.38l7.12 4.16a2.8 2.8 0 0 0-.08.65A2.92 2.92 0 1 0 18 16.08z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12zm0 2.25c-3 0-9 1.5-9 4.5V21h18v-2.25c0-3-6-4.5-9-4.5z"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm4 18H6V4h7v5h5z"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><path d="M18 8h-1V6A5 5 0 0 0 7 6v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 2-2 2 2 0 0 1-2 2zm3.1-9H8.9V6a3.1 3.1 0 0 1 6.2 0z"/></symbol>
 </svg>
 
 <!-- HOME -->
@@ -401,6 +443,7 @@ html[data-theme="light"] .cb.off,html[data-theme="light"] .cb.on,html[data-theme
     <div class="brand"><div class="mark"><svg><use href="#i-video"/></svg></div>HUDDLE</div>
     <div class="sp"></div>
     <span class="clock" id="clock"></span>
+    <button class="chip acctBtn" aria-label="Account"><svg><use href="#i-user"/></svg><span class="acctName">Sign in</span></button>
     <button class="chip themeBtn" aria-label="Switch light or dark theme"><svg><use href="#i-moon"/></svg><span>Theme</span></button>
   </div>
   <div class="hero">
@@ -431,6 +474,7 @@ html[data-theme="light"] .cb.off,html[data-theme="light"] .cb.on,html[data-theme
   <div class="top">
     <div class="brand"><div class="mark"><svg><use href="#i-video"/></svg></div>HUDDLE</div>
     <div class="sp"></div>
+    <button class="chip acctBtn" aria-label="Account"><svg><use href="#i-user"/></svg><span class="acctName">Sign in</span></button>
     <button class="chip themeBtn" aria-label="Switch light or dark theme"><svg><use href="#i-moon"/></svg><span>Theme</span></button>
   </div>
   <div class="lobby-main">
@@ -467,6 +511,7 @@ html[data-theme="light"] .cb.off,html[data-theme="light"] .cb.on,html[data-theme
       <button class="tb" id="linkBtn" data-tipb="Copy link" aria-label="Copy meeting link"><svg><use href="#i-link"/></svg></button>
       <button class="tb" id="peopleBtn" data-tipb="People" aria-label="People"><svg><use href="#i-people"/></svg><b class="cnt" id="pCount">1</b></button>
       <button class="tb" id="chatBtn" data-tipb="Chat" aria-label="Chat"><svg><use href="#i-chat"/></svg><span class="badge hidden" id="chatBadge">0</span></button>
+      <button class="tb acctBtn" data-tipb="Account" aria-label="Account"><svg><use href="#i-user"/></svg></button>
       <button class="tb themeBtn" data-tipb="Theme" aria-label="Switch light or dark theme"><svg><use href="#i-moon"/></svg></button>
     </div>
   </div>
@@ -484,11 +529,20 @@ html[data-theme="light"] .cb.off,html[data-theme="light"] .cb.on,html[data-theme
       <button class="iconbtn" id="sideClose" aria-label="Close panel"><svg><use href="#i-close"/></svg></button>
     </div>
     <div class="side-body" id="chatBody">
-      <div class="chat-note">Messages are seen only by people in the call right now. They're not saved.</div>
-      <div id="msgs"></div>
+      <div class="chat-lock hidden" id="chatLock">
+        <div class="lock-ic"><svg><use href="#i-lock"/></svg></div>
+        <h4>Chat is for members</h4>
+        <p>Create a free account to chat. Every message in this room is saved, so you can scroll back any time. You can send files up to 1 MB.</p>
+        <button class="btn btn-solid" id="lockSignup">Create account</button>
+        <button class="btn btn-ghost" id="lockSignin">Sign in</button>
+      </div>
+      <div id="chatMain">
+        <div class="chat-note" id="chatNote">Messages in this room are saved. Only signed-in members can read them.</div>
+        <div id="msgs"></div>
+      </div>
     </div>
     <div class="side-body hidden" id="peopleBody"></div>
-    <form class="chat-in" id="chatForm"><input id="chatIn" placeholder="Send a message" maxlength="500" autocomplete="off" aria-label="Message"><button id="chatSend" disabled aria-label="Send"><svg><use href="#i-send"/></svg></button></form>
+    <form class="chat-in" id="chatForm"><button type="button" class="attach" id="attachBtn" aria-label="Attach a file (max 1 MB)" title="Attach a file (max 1 MB)"><svg><use href="#i-clip"/></svg></button><input type="file" id="fileIn" hidden><input id="chatIn" placeholder="Send a message" maxlength="2000" autocomplete="off" aria-label="Message"><button id="chatSend" disabled aria-label="Send"><svg><use href="#i-send"/></svg></button></form>
   </aside>
 
   <div class="solo hidden" id="solo">
@@ -519,6 +573,32 @@ html[data-theme="light"] .cb.off,html[data-theme="light"] .cb.on,html[data-theme
     </div>
   </div>
 </section>
+
+<div class="modal hidden" id="acct" role="dialog" aria-modal="true" aria-labelledby="acctTitle">
+  <div class="sheet">
+    <button class="iconbtn x" id="acctClose" aria-label="Close"><svg><use href="#i-close"/></svg></button>
+    <div id="acctOut">
+      <div class="tabs acct-tabs" id="acctTabs" role="tablist"><span class="pill"></span>
+        <button role="tab" aria-selected="true" id="tabUp">Create account</button>
+        <button role="tab" aria-selected="false" id="tabIn">Sign in</button>
+      </div>
+      <h3 id="acctTitle">Create your account</h3>
+      <p class="acct-sub" id="acctSub">Pick a username and password. No email needed.</p>
+      <form id="acctForm" autocomplete="on">
+        <div class="field" id="uField"><input id="uIn" placeholder="username" autocomplete="username" maxlength="20" aria-label="Username" spellcheck="false" autocapitalize="off"></div>
+        <div class="field" id="pField"><input id="pIn" type="password" placeholder="password (6+ characters)" autocomplete="new-password" maxlength="200" aria-label="Password"></div>
+        <button class="btn btn-solid" id="acctGo" type="submit">Create account</button>
+        <div class="err" id="acctErr"></div>
+      </form>
+    </div>
+    <div id="acctIn" class="hidden">
+      <div class="me-av" id="meAv"></div>
+      <h3 id="meName"></h3>
+      <p class="acct-sub">You're signed in. Your chat history follows you on any device you sign in on.</p>
+      <button class="btn btn-ghost" id="signOut">Sign out</button>
+    </div>
+  </div>
+</div>
 
 <div class="toasts" id="toasts" aria-live="polite"></div>
 
@@ -711,7 +791,7 @@ async function enterLobby(){
   show('lobby');
   document.title = code + ' · Huddle';
   $('lobbyCode').textContent = code;
-  $('nameIn').value = hashName || myName;
+  $('nameIn').value = hashName || myName || (account ? account.username : '');
   $('lobbyErr').textContent = '';
   $('whos').textContent = 'checking who\'s here…';
   updateJoinBtn();
@@ -776,7 +856,7 @@ function connectChannel(){
   ch.__code = code;
   ch.on('presence', { event:'sync' }, onPresence)
     .on('broadcast', { event:'sig' }, ({payload}) => onSignal(payload))
-    .on('broadcast', { event:'chat' }, ({payload}) => onChat(payload))
+    .on('broadcast', { event:'chat' }, ({payload}) => onChatPing(payload))
     .on('broadcast', { event:'state' }, ({payload}) => onRemoteState(payload))
     .on('broadcast', { event:'bye' }, ({payload}) => { if (payload?.from) removePeer(payload.from, true); })
     .subscribe(async status => {
@@ -1111,6 +1191,7 @@ async function joinCall(){
   $('grid').innerHTML = ''; setPin(null);
   self = { id: myId, tile:null };
   show('room');
+  chatRefreshAccess();
   makeTile(self, true);
   paintSelf();
   try { audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)(); audioCtx.resume(); } catch {}
@@ -1133,7 +1214,7 @@ function leave(goLeftScreen=true){
   teardownChannel();
   stopLocal();
   closeSide();
-  $('msgs').innerHTML = ''; unread = 0; updateBadge();
+  chatReset(); unread = 0; updateBadge();
   $('solo').classList.add('hidden');
   if (goLeftScreen) { $('leftDur').textContent = fmtDur(dur); show('left'); }
 }
@@ -1231,7 +1312,7 @@ function openSide(mode){
   $('tabChat').setAttribute('aria-selected', mode === 'chat');
   $('tabPeople').setAttribute('aria-selected', mode === 'people');
   $('chatBody').classList.toggle('hidden', mode !== 'chat');
-  $('chatForm').classList.toggle('hidden', mode !== 'chat');
+  $('chatForm').classList.toggle('hidden', mode !== 'chat' || !account);
   $('peopleBody').classList.toggle('hidden', mode !== 'people');
   $('chatBtn').classList.toggle('on', mode === 'chat');
   $('peopleBtn').classList.toggle('on', mode === 'people');
@@ -1266,30 +1347,269 @@ function updateCounts(){
 }
 function updateBadge(){ $('chatBadge').textContent = unread > 9 ? '9+' : unread; $('chatBadge').classList.toggle('hidden', !unread); }
 function scrollChat(){ const b = $('chatBody'); b.scrollTop = b.scrollHeight; }
-function addMsg(name, text, ts, mine){
-  const d = document.createElement('div'); d.className = 'msg' + (mine ? ' mine' : '');
-  d.innerHTML = `<div class="who"><span></span><time>${fmtTime(new Date(ts||Date.now()))}</time></div><div class="txt"></div>`;
-  d.querySelector('.who span').textContent = name;
-  d.querySelector('.txt').textContent = text;
-  $('msgs').appendChild(d); scrollChat();
+/* ================= ACCOUNTS ================= */
+let account = null;                       // { token, username }
+try { account = JSON.parse(store.get('huddle.acct') || 'null'); } catch {}
+async function rpc(fn, args){
+  if (!sb) throw new Error('offline');
+  const { data, error } = await sb.rpc(fn, args);
+  if (error) throw error;
+  return data;
 }
-function onChat(m){
-  if (!joined || !m?.text) return;
-  const name = peers.get(m.from)?.name || String(m.name||'Guest').slice(0,40);
-  addMsg(name, String(m.text).slice(0,500), m.ts);
-  if (sideMode !== 'chat') { unread++; updateBadge(); toast(`${name}: ${String(m.text).slice(0,60)}`); }
+const ERRS = {
+  bad_username: 'Username: 3–20 letters, numbers or _',
+  bad_password: 'Password needs at least 6 characters',
+  username_taken: 'That username is already taken',
+  bad_login: 'Wrong username or password',
+  file_too_big: 'Files must be 1 MB or smaller',
+  empty_file: 'That file is empty',
+  not_signed_in: 'Your session ended — please sign in again',
+  too_long: 'Message is too long (2000 characters max)',
+};
+const errText = e => ERRS[e && e.message] || (/fetch|network|offline/i.test((e && e.message) || '') ? 'No connection — try again' : 'Something went wrong — try again');
+
+function setAccount(a){
+  account = a;
+  store.set('huddle.acct', a ? JSON.stringify(a) : '');
+  paintAccount();
+  chatRefreshAccess();
+}
+function paintAccount(){
+  document.querySelectorAll('.acctBtn').forEach(b => {
+    b.classList.toggle('in', !!account);
+    const n = b.querySelector('.acctName'); if (n) n.textContent = account ? account.username : 'Sign in';
+    b.setAttribute('aria-label', account ? 'Account: ' + account.username : 'Sign in or create account');
+    if (b.dataset.tipb !== undefined) b.dataset.tipb = account ? account.username : 'Sign in';
+  });
+}
+async function verifyAccount(){
+  if (!account || !sb) return;
+  try { const me = await rpc('huddle_me', { p_token: account.token }); if (!me) { setAccount(null); toast('You were signed out'); } }
+  catch {}
+}
+
+let acctMode = 'up';
+function setAcctMode(m){
+  acctMode = m;
+  $('acctTabs').classList.toggle('in', m === 'in');
+  $('tabUp').setAttribute('aria-selected', m === 'up');
+  $('tabIn').setAttribute('aria-selected', m === 'in');
+  $('acctTitle').textContent = m === 'up' ? 'Create your account' : 'Welcome back';
+  $('acctSub').textContent = m === 'up' ? 'Pick a username and password. No email needed.' : 'Sign in to see your saved chats.';
+  $('acctGo').textContent = m === 'up' ? 'Create account' : 'Sign in';
+  $('pIn').setAttribute('autocomplete', m === 'up' ? 'new-password' : 'current-password');
+  $('pIn').placeholder = m === 'up' ? 'password (6+ characters)' : 'password';
+  $('acctErr').textContent = '';
+}
+function openAcct(mode){
+  $('acct').classList.remove('hidden');
+  $('acctOut').classList.toggle('hidden', !!account);
+  $('acctIn').classList.toggle('hidden', !account);
+  if (account) {
+    $('meName').textContent = account.username;
+    $('meAv').textContent = initial(account.username);
+  } else {
+    setAcctMode(mode || acctMode);
+    setTimeout(() => $('uIn').focus(), 60);
+  }
+}
+function closeAcct(){ $('acct').classList.add('hidden'); }
+document.querySelectorAll('.acctBtn').forEach(b => b.addEventListener('click', () => openAcct()));
+$('acctClose').onclick = closeAcct;
+$('acct').addEventListener('click', e => { if (e.target === $('acct')) closeAcct(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('acct').classList.contains('hidden')) closeAcct(); });
+$('tabUp').onclick = () => setAcctMode('up');
+$('tabIn').onclick = () => setAcctMode('in');
+$('lockSignup').onclick = () => openAcct('up');
+$('lockSignin').onclick = () => openAcct('in');
+$('uIn').addEventListener('input', () => { const el = $('uIn'); const v = el.value.toLowerCase().replace(/[^a-z0-9_]/g, ''); if (v !== el.value) el.value = v; });
+$('acctForm').onsubmit = async e => {
+  e.preventDefault();
+  const u = $('uIn').value.trim().toLowerCase(), p = $('pIn').value;
+  $('acctErr').textContent = '';
+  if (!/^[a-z0-9_]{3,20}$/.test(u)) { $('acctErr').textContent = ERRS.bad_username; shakeEl($('uField')); return; }
+  if (p.length < (acctMode === 'up' ? 6 : 1)) { $('acctErr').textContent = acctMode === 'up' ? ERRS.bad_password : 'Enter your password'; shakeEl($('pField')); return; }
+  const btn = $('acctGo'); btn.disabled = true; const label = btn.textContent; btn.textContent = acctMode === 'up' ? 'Creating…' : 'Signing in…';
+  try {
+    const r = await rpc(acctMode === 'up' ? 'huddle_signup' : 'huddle_login', { p_username: u, p_password: p });
+    $('pIn').value = '';
+    setAccount({ token: r.token, username: r.username });
+    closeAcct();
+    toast(acctMode === 'up' ? `Welcome, ${r.username}` : `Signed in as ${r.username}`);
+    if (!$('lobby').classList.contains('hidden') && !$('nameIn').value.trim()) { $('nameIn').value = r.username; updateJoinBtn(); }
+  } catch (err) {
+    $('acctErr').textContent = errText(err);
+    shakeEl(err && err.message === 'bad_password' ? $('pField') : $('uField'));
+  } finally { btn.disabled = false; btn.textContent = label; }
+};
+$('signOut').onclick = async () => {
+  const t = account && account.token;
+  setAccount(null); closeAcct(); toast('Signed out');
+  if (t) { try { await rpc('huddle_logout', { p_token: t }); } catch {} }
+};
+
+/* ================= SAVED CHAT (members only) ================= */
+let lastMsgId = 0, chatLoading = false, chatAgain = false, lastDay = '';
+const shownMsgs = new Set();
+const fileCache = new Map();                 // sha -> Promise<objectURL>
+
+function chatReset(){ $('msgs').innerHTML = ''; shownMsgs.clear(); lastMsgId = 0; lastDay = ''; }
+function chatRefreshAccess(){
+  const ok = !!account;
+  $('chatLock').classList.toggle('hidden', ok);
+  $('chatMain').classList.toggle('hidden', !ok);
+  $('chatForm').classList.toggle('hidden', !ok || sideMode !== 'chat');
+  chatReset();
+  if (ok && joined) chatLoad(false);
+}
+async function chatLoad(notify){
+  if (!account || !joined) return;
+  if (chatLoading) { chatAgain = true; return; }
+  chatLoading = true;
+  const room = code;
+  try {
+    const rows = await rpc('huddle_history', { p_token: account.token, p_room: room, p_after: lastMsgId || null });
+    if (room !== code) return;
+    for (const r of rows || []) renderMsg(r, notify);
+  } catch (e) {
+    if (e && e.message === 'not_signed_in') { setAccount(null); toast(ERRS.not_signed_in); }
+    else log('history err', e);
+  } finally {
+    chatLoading = false;
+    if (chatAgain) { chatAgain = false; chatLoad(notify); }
+  }
+}
+const fmtSize = n => n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB' : (n / 1048576).toFixed(2) + ' MB';
+function dayLabel(d){
+  const t = new Date(); const y = new Date(Date.now() - 864e5);
+  if (d.toDateString() === t.toDateString()) return 'TODAY';
+  if (d.toDateString() === y.toDateString()) return 'YESTERDAY';
+  try { return d.toLocaleDateString([], { weekday:'short', day:'numeric', month:'short', year: d.getFullYear() === t.getFullYear() ? undefined : 'numeric' }).toUpperCase(); } catch { return d.toDateString().toUpperCase(); }
+}
+function renderMsg(r, notify){
+  if (!r || shownMsgs.has(r.id)) return;
+  shownMsgs.add(r.id); lastMsgId = Math.max(lastMsgId, r.id);
+  const when = new Date(r.created_at);
+  const day = when.toDateString();
+  if (day !== lastDay) { lastDay = day; const s = document.createElement('div'); s.className = 'daysep'; s.textContent = dayLabel(when); $('msgs').appendChild(s); }
+  const mine = account && r.username === account.username;
+  const d = document.createElement('div'); d.className = 'msg' + (mine ? ' mine' : '');
+  d.innerHTML = `<div class="who"><span></span><time>${fmtTime(when)}</time></div>`;
+  d.querySelector('.who span').textContent = mine ? 'you' : r.username;
+  if (r.body) { const tx = document.createElement('div'); tx.className = 'txt'; tx.textContent = r.body; d.appendChild(tx); }
+  if (r.file_sha) {
+    const isImg = /^image\/(png|jpe?g|gif|webp|avif)$/i.test(r.mime || '');
+    if (isImg) {
+      const img = document.createElement('img'); img.className = 'fimg'; img.alt = r.file_name || 'image'; img.loading = 'lazy';
+      loadFile(r.file_sha).then(u => { img.src = u; img.onload = () => { if (atBottom) scrollChat(); }; }).catch(() => { img.replaceWith(fileChip(r)); });
+      img.onclick = () => loadFile(r.file_sha).then(u => window.open(u, '_blank', 'noopener'));
+      d.appendChild(img);
+    }
+    d.appendChild(fileChip(r));
+  }
+  const b = $('chatBody'); const atBottom = b.scrollHeight - b.scrollTop - b.clientHeight < 80;
+  $('msgs').appendChild(d);
+  if (atBottom || mine || !notify) scrollChat();
+  if (notify && !mine && sideMode !== 'chat') {
+    unread++; updateBadge();
+    toast(`${r.username}: ${r.body ? r.body.slice(0, 60) : '📎 ' + (r.file_name || 'file')}`);
+  }
+}
+function fileChip(r){
+  const c = document.createElement('button'); c.type = 'button'; c.className = 'fchip';
+  c.innerHTML = `<span class="fi"><svg><use href="#i-file"/></svg></span><span class="fn"></span><span class="fs">${r.size ? fmtSize(r.size) : ''}</span><svg><use href="#i-down"/></svg>`;
+  c.querySelector('.fn').textContent = r.file_name || 'file';
+  c.title = 'Download ' + (r.file_name || 'file');
+  c.onclick = async () => {
+    c.disabled = true;
+    try { const u = await loadFile(r.file_sha); const a = document.createElement('a'); a.href = u; a.download = r.file_name || 'file'; document.body.appendChild(a); a.click(); a.remove(); }
+    catch (e) { toast('Couldn\'t download that file — ' + errText(e)); }
+    finally { c.disabled = false; }
+  };
+  return c;
+}
+function loadFile(sha){
+  if (!fileCache.has(sha)) {
+    const p = (async () => {
+      const f = await rpc('huddle_file', { p_token: account.token, p_sha: sha });
+      if (!f) throw new Error('missing');
+      const bin = atob(f.data); const u8 = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+      return URL.createObjectURL(new Blob([u8], { type: f.mime || 'application/octet-stream' }));
+    })();
+    p.catch(() => fileCache.delete(sha));
+    fileCache.set(sha, p);
+  }
+  return fileCache.get(sha);
+}
+function onChatPing(p){
+  if (!joined || !account || !p || p.room !== code) return;
+  chatLoad(true);
+}
+function pendingMsg(text){
+  const d = document.createElement('div'); d.className = 'msg mine pending';
+  d.innerHTML = `<div class="who"><span>you</span><time>sending…</time></div><div class="txt"></div>`;
+  d.querySelector('.txt').textContent = text;
+  $('msgs').appendChild(d); scrollChat(); return d;
 }
 $('chatIn').addEventListener('input', () => { $('chatSend').disabled = !$('chatIn').value.trim(); });
-$('chatForm').onsubmit = e => {
+$('chatForm').onsubmit = async e => {
   e.preventDefault();
+  if (!account) { openAcct('up'); return; }
   const text = $('chatIn').value.trim(); if (!text) return;
-  send('chat', { from: myId, name: myName, text, ts: Date.now() });
-  addMsg('you', text, Date.now(), true);
   $('chatIn').value = ''; $('chatSend').disabled = true;
+  const p = pendingMsg(text);
+  try {
+    const r = await rpc('huddle_post', { p_token: account.token, p_room: code, p_body: text });
+    p.remove();
+    send('chat', { room: code, id: r.id });
+    await chatLoad(false);
+  } catch (err) {
+    p.querySelector('time').textContent = 'not sent';
+    toast(errText(err));
+    if (!$('chatIn').value) { $('chatIn').value = text; $('chatSend').disabled = false; }
+    setTimeout(() => p.remove(), 2500);
+    if (err && err.message === 'not_signed_in') setAccount(null);
+  }
+};
+
+/* files: max 1 MB; identical content is uploaded once and reused by its SHA-256 */
+$('attachBtn').onclick = () => { if (!account) { openAcct('up'); return; } $('fileIn').click(); };
+function toB64(buf){
+  const u8 = new Uint8Array(buf); let s = '';
+  for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+$('fileIn').onchange = async () => {
+  const f = $('fileIn').files[0]; $('fileIn').value = '';
+  if (!f) return;
+  if (f.size > 1048576) { toast(`"${f.name}" is ${fmtSize(f.size)} — files must be 1 MB or smaller`); shakeEl($('chatForm')); return; }
+  if (f.size === 0) { toast('That file is empty'); return; }
+  const btn = $('attachBtn'); btn.classList.add('busy'); btn.disabled = true;
+  const p = pendingMsg('📎 ' + f.name);
+  try {
+    const buf = await f.arrayBuffer();
+    const sha = [...new Uint8Array(await crypto.subtle.digest('SHA-256', buf))].map(b => b.toString(16).padStart(2, '0')).join('');
+    const base = { p_token: account.token, p_room: code, p_file_name: f.name, p_mime: f.type || 'application/octet-stream' };
+    let r, reused = false;
+    if (await rpc('huddle_has_file', { p_token: account.token, p_sha: sha })) {
+      try { r = await rpc('huddle_post', { ...base, p_file_sha: sha }); reused = true; }
+      catch (e) { if (e && e.message === 'need_data') r = null; else throw e; }
+    }
+    if (!r) r = await rpc('huddle_post', { ...base, p_file_b64: toB64(buf) });
+    p.remove();
+    send('chat', { room: code, id: r.id });
+    await chatLoad(false);
+    if (reused) toast('Same file was already stored — sent without uploading again');
+  } catch (err) {
+    p.querySelector('time').textContent = 'not sent'; setTimeout(() => p.remove(), 2500);
+    toast(errText(err));
+  } finally { btn.classList.remove('busy'); btn.disabled = false; }
 };
 
 /* ================= START ================= */
 window.__huddle = { peers, get joined(){return joined;}, get code(){return code;}, myId };
+paintAccount(); chatRefreshAccess(); verifyAccount();
 try { route(); } catch (e) { console.error(e); toast('Something failed to start — reload the page'); }
 })();
 </script>
