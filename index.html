@@ -353,10 +353,10 @@ html[data-theme="light"] .cb.off,html[data-theme="light"] .cb.on,html[data-theme
 .chat-lock h4{font-size:15px;margin-bottom:8px}
 .chat-lock p{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:18px}
 .chat-lock .btn{width:100%;margin-bottom:8px}
-.attach{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:var(--muted);flex:none;margin-left:-8px;transition:background .15s,color .15s,transform .15s var(--ease)}
-.attach:hover{background:var(--card2);color:var(--fg)}
-.attach:active{transform:scale(.9)}
-.attach.busy{animation:pulse 1s infinite}
+.chat-in .attach{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:none;color:var(--muted);flex:none;margin-left:-8px;transition:background .15s,color .15s,transform .15s var(--ease)}
+.chat-in .attach:hover{background:var(--card2);color:var(--fg)}
+.chat-in .attach:active{transform:scale(.9)}
+.chat-in .attach.busy{animation:pulse 1s infinite}
 .fchip{display:flex;align-items:center;gap:10px;margin-top:6px;padding:9px 10px;border:1px solid var(--line2);border-radius:12px;background:var(--bg2);cursor:pointer;max-width:100%;transition:border-color .15s,transform .15s var(--ease)}
 .fchip:hover{border-color:var(--fg)}
 .fchip:active{transform:scale(.98)}
@@ -1316,7 +1316,7 @@ function openSide(mode){
   $('peopleBody').classList.toggle('hidden', mode !== 'people');
   $('chatBtn').classList.toggle('on', mode === 'chat');
   $('peopleBtn').classList.toggle('on', mode === 'people');
-  if (mode === 'chat') { unread = 0; updateBadge(); setTimeout(()=>$('chatIn').focus(), 50); scrollChat(); }
+  if (mode === 'chat') { unread = 0; updateBadge(); if (account) { chatLoad(false); setTimeout(()=>$('chatIn').focus(), 50); } scrollChat(); }
   else renderPeople();
   setTimeout(layout, 340);
 }
@@ -1542,6 +1542,7 @@ function loadFile(sha){
   }
   return fileCache.get(sha);
 }
+setInterval(() => { if (joined && account && !document.hidden) chatLoad(sideMode !== 'chat'); }, 15000);
 function onChatPing(p){
   if (!joined || !account || !p || p.room !== code) return;
   chatLoad(true);
@@ -1583,7 +1584,7 @@ function toB64(buf){
 $('fileIn').onchange = async () => {
   const f = $('fileIn').files[0]; $('fileIn').value = '';
   if (!f) return;
-  if (f.size > 1048576) { toast(`"${f.name}" is ${fmtSize(f.size)} — files must be 1 MB or smaller`); shakeEl($('chatForm')); return; }
+  if (f.size > 1048576) { toast(`"${f.name}" is too big (${f.size < 1100000 ? 'just over 1 MB' : fmtSize(f.size)}) — files must be 1 MB or smaller`); shakeEl($('chatForm')); return; }
   if (f.size === 0) { toast('That file is empty'); return; }
   const btn = $('attachBtn'); btn.classList.add('busy'); btn.disabled = true;
   const p = pendingMsg('📎 ' + f.name);
