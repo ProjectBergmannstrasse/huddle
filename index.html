@@ -155,7 +155,7 @@ svg{width:20px;height:20px;fill:currentColor;flex:none}
 .grid-wrap{flex:1;min-width:0;padding:14px 16px calc(98px + env(safe-area-inset-bottom,0px));display:flex;transition:padding .32s var(--ease)}
 .stage.with-side .grid-wrap{padding-right:392px}
 .grid{flex:1;display:grid;gap:12px;align-content:center;justify-content:center;min-height:0;min-width:0}
-.tile{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;min-height:0;min-width:0;aspect-ratio:16/9;width:100%;max-height:100%;animation:tileIn .32s var(--ease) both;transition:border-color .15s,box-shadow .2s}
+.tile{position:relative;max-width:100%;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;min-height:0;min-width:0;aspect-ratio:16/9;width:100%;max-height:100%;animation:tileIn .32s var(--ease) both;transition:border-color .15s,box-shadow .2s}
 @keyframes tileIn{from{opacity:0;transform:scale(.94)}}
 .tile.out{animation:tileOut .25s var(--ease) forwards}
 @keyframes tileOut{to{opacity:0;transform:scale(.9)}}
@@ -173,7 +173,8 @@ svg{width:20px;height:20px;fill:currentColor;flex:none}
 .tile .micoff{position:absolute;right:10px;top:10px;width:28px;height:28px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center;transform:scale(0);transition:transform .2s var(--spring)}
 .tile .micoff svg{width:15px;height:15px}
 .tile.nomic .micoff{transform:scale(1)}
-.tile .status{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.6);font-size:12px;color:#fff;letter-spacing:.5px;opacity:0;pointer-events:none;transition:opacity .2s}
+.tile .status{position:absolute;left:50%;top:12px;transform:translate(-50%,-6px);background:rgba(0,0,0,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:4px 10px;border-radius:8px;font-size:11px;color:#fff;letter-spacing:.5px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s var(--ease)}
+.tile.connecting .status{transform:translate(-50%,0)}
 .tile.connecting .status{opacity:1}
 .status em{font-style:normal;display:inline-block;width:3ch;text-align:left}
 .tile .q{position:absolute;right:10px;bottom:10px;display:flex;gap:2px;align-items:flex-end;opacity:.8}
@@ -278,6 +279,35 @@ svg{width:20px;height:20px;fill:currentColor;flex:none}
   [data-tipb]:hover::after{content:attr(data-tipb);position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--fg);color:var(--inv);font-size:11px;font-weight:600;padding:5px 8px;border-radius:7px;white-space:nowrap;pointer-events:none;z-index:40;animation:tipb .15s var(--ease)}
 }
 @keyframes tipb{from{opacity:0;transform:translate(-50%,-4px)}}
+
+
+/* ---- round control buttons ---- */
+.bar{width:auto;max-width:calc(100vw - 24px);border-radius:999px;padding:8px;gap:10px;align-items:center}
+.cb{flex:none;width:54px;height:54px;min-height:0;border-radius:50%;gap:0;background:var(--card2);border:1px solid var(--line);color:var(--fg);overflow:visible;
+  transition:transform .35s var(--spring),background .2s,color .2s,border-color .2s,box-shadow .2s}
+.cb > span:not(.lv):not(.ring){position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.cb svg{width:22px;height:22px;transition:transform .45s var(--spring)}
+.cb:hover{background:var(--line);transform:translateY(-3px)}
+.cb:active{transform:scale(.86);transition-duration:.12s}
+.cb.off{background:var(--fg);color:var(--inv);border-color:var(--fg)}
+.cb.off svg{transform:rotate(-12deg) scale(1.05)}
+.cb.on{background:var(--fg);color:var(--inv);border-color:var(--fg)}
+.cb.on svg{transform:scale(1.1)}
+.cb.flip svg{animation:flip .45s var(--spring)}
+@keyframes flip{0%{transform:rotateY(0) scale(1)}45%{transform:rotateY(90deg) scale(.7)}100%{transform:rotateY(0) scale(1)}}
+.cb .ring{position:absolute;inset:-1px;border-radius:50%;pointer-events:none;box-shadow:0 0 0 calc(var(--lvl,0) * 9px) var(--line2);opacity:.9;transition:box-shadow .08s linear}
+.cb.leave{width:66px;border-radius:27px;background:var(--fg);color:var(--inv);border-color:var(--fg)}
+.cb.leave .lv{width:auto;height:auto;background:none;color:inherit}
+.cb.leave .lv svg{width:24px;height:24px}
+.cb.leave:hover{transform:translateY(-3px)}
+.cb.leave:hover .lv{transform:rotate(135deg)}
+.cb.leave .lv{transition:transform .5s var(--spring)}
+.cb .rip{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;border:2px solid var(--fg);pointer-events:none;animation:rip .5s var(--ease) forwards}
+@keyframes rip{from{transform:scale(.6);opacity:.7}to{transform:scale(1.6);opacity:0}}
+.bar .cb{animation:pop .4s var(--spring) both}
+.bar .cb:nth-child(2){animation-delay:.05s}.bar .cb:nth-child(3){animation-delay:.1s}.bar .cb:nth-child(4){animation-delay:.15s}
+.bar .divider{display:none}
+@media (max-width:640px){ .bar{padding:6px;gap:12px} .cb{width:52px;height:52px} .cb.leave{width:62px} }
 
 /* tooltips */
 [data-tip]{position:relative}
@@ -448,10 +478,10 @@ svg{width:20px;height:20px;fill:currentColor;flex:none}
   </div>
 
   <nav class="bar" aria-label="Call controls">
-    <button class="cb" id="micBtn" data-tip="Ctrl+D"><svg><use href="#i-mic"/></svg><span>Mic</span></button>
-    <button class="cb" id="camBtn" data-tip="Ctrl+E"><svg><use href="#i-cam"/></svg><span>Camera</span></button>
-    <button class="cb" id="shareBtn"><svg><use href="#i-screen"/></svg><span>Present</span></button>
-    <button class="cb leave" id="leaveBtn"><span class="lv"><svg><use href="#i-end"/></svg></span><span>Leave</span></button>
+    <button class="cb" id="micBtn" data-tip="Ctrl+D" aria-label="Microphone"><span class="ring"></span><svg><use href="#i-mic"/></svg><span>Mic</span></button>
+    <button class="cb" id="camBtn" data-tip="Ctrl+E" aria-label="Camera"><svg><use href="#i-cam"/></svg><span>Camera</span></button>
+    <button class="cb" id="shareBtn" data-tip="Present screen" aria-label="Present screen"><svg><use href="#i-screen"/></svg><span>Present</span></button>
+    <button class="cb leave" id="leaveBtn" data-tip="Leave" aria-label="Leave call"><span class="lv"><svg><use href="#i-end"/></svg></span><span>Leave</span></button>
   </nav>
 </section>
 
@@ -477,9 +507,14 @@ svg{width:20px;height:20px;fill:currentColor;flex:none}
 /* ================= CONFIG ================= */
 const SB_URL = 'https://abxmikurmecefbtgohkh.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFieG1pa3VybWVjZWZidGdvaGtoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2ODEyODMsImV4cCI6MjEwNjI1NzI4M30.6X5yJ7pZgZcYeVtS8cqIUoq50Wef5hD1oMYRbvQtdT8';
+/* TURN relay: needed when two players' networks block direct connections (strict Wi-Fi,
+   some mobile carriers). Paste free credentials from metered.ca or Cloudflare here, e.g.
+   { urls: ['turn:a.relay.metered.ca:80','turn:a.relay.metered.ca:443?transport=tcp'], username: '…', credential: '…' } */
+const TURN = [];
 const ICE = [
-  { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] },
-  { urls: 'stun:stun.cloudflare.com:3478' }
+  { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'] },
+  { urls: 'stun:stun.cloudflare.com:3478' },
+  ...TURN
 ];
 
 /* ================= HELPERS ================= */
@@ -765,16 +800,29 @@ function onPresence(){
 }
 
 /* ================= PEERS (WebRTC mesh) ================= */
+/* Each connection attempt has a generation number ("g"). Only the offerer starts a new
+   generation; stale offers/answers/candidates from an older attempt are ignored, so a
+   connection can be torn down and rebuilt cleanly whenever it gets stuck. */
 function ensurePeer(id){
   let peer = peers.get(id);
   if (peer) return peer;
-  const offerer = myId < id;
-  const pc = new RTCPeerConnection({ iceServers: ICE });
-  peer = { id, pc, offerer, name:'Guest', mic:true, cam:true, screen:false, seen:false, tx:{}, pendingIce:[], stream:new MediaStream(), tile:null };
+  peer = { id, offerer: myId < id, gen: 0, name:'Guest', mic:true, cam:true, screen:false, seen:false,
+           tx:{}, pendingIce:[], stream:new MediaStream(), tile:null, pc:null,
+           badSince: Date.now(), attempts: 0, lastReq: 0 };
   peers.set(id, peer);
   makeTile(peer);
+  buildPc(peer);
+  if (peer.offerer) startOffer(peer);
+  return peer;
+}
 
-  pc.onicecandidate = e => { if (e.candidate) send('sig', { from:myId, to:id, kind:'ice', c:e.candidate.toJSON() }); };
+function buildPc(peer){
+  if (peer.pc) { try { peer.pc.onconnectionstatechange = null; peer.pc.close(); } catch {} }
+  const pc = new RTCPeerConnection({ iceServers: ICE });
+  peer.pc = pc; peer.tx = {}; peer.pendingIce = [];
+  peer.badSince = Date.now();
+  const gen = () => peer.gen;
+  pc.onicecandidate = e => { if (e.candidate && peer.pc === pc) send('sig', { from:myId, to:peer.id, kind:'ice', g:gen(), c:e.candidate.toJSON() }); };
   pc.ontrack = e => {
     if (!peer.stream.getTracks().includes(e.track)) {
       for (const t of peer.stream.getTracks()) if (t.kind === e.track.kind) peer.stream.removeTrack(t);
@@ -786,34 +834,90 @@ function ensurePeer(id){
     if (e.track.kind === 'audio') watchLevel(peer, e.track);
   };
   pc.onconnectionstatechange = () => {
-    const s = pc.connectionState; log('pc', id, s);
-    peer.tile.classList.toggle('connecting', s !== 'connected');
-    peer.tile.querySelector('.status span').textContent = s === 'failed' ? 'connection lost · retrying' : s === 'disconnected' ? 'reconnecting' : 'connecting';
-    if (s === 'failed' && offerer) { try { pc.restartIce(); } catch {} }
+    if (peer.pc !== pc) return;
+    const s = pc.connectionState; log('pc', peer.id, s, 'gen', peer.gen);
+    if (s === 'connected') { peer.badSince = 0; peer.attempts = 0; }
+    else if (!peer.badSince) peer.badSince = Date.now();
+    paintConn(peer);
+    if (s === 'failed' && peer.offerer) { try { pc.restartIce(); } catch {} }
   };
-  pc.onnegotiationneeded = async () => {
-    if (!offerer) return;
-    try {
-      await pc.setLocalDescription();
-      send('sig', { from:myId, to:id, kind:'sdp', sdp: pc.localDescription.toJSON() });
-    } catch (e) { log('offer err', e); }
-  };
-  if (offerer) {
-    peer.tx.audio = pc.addTransceiver(micTrack || 'audio', { direction:'sendrecv' });
-    peer.tx.video = pc.addTransceiver(outVideo() || 'video', { direction:'sendrecv' });
-    if (micTrack) micTrack.enabled = micOn;
-  }
-  return peer;
+  pc.onnegotiationneeded = () => { if (peer.offerer && peer.pc === pc && peer.ready) sendOffer(peer); };
+  paintConn(peer);
 }
+
+function startOffer(peer){
+  const pc = peer.pc;
+  peer.ready = false;
+  peer.tx.audio = pc.addTransceiver(micTrack || 'audio', { direction:'sendrecv' });
+  peer.tx.video = pc.addTransceiver(outVideo() || 'video', { direction:'sendrecv' });
+  if (micTrack) micTrack.enabled = micOn;
+  peer.ready = true;
+  sendOffer(peer);
+}
+async function sendOffer(peer){
+  const pc = peer.pc;
+  try {
+    await pc.setLocalDescription();
+    if (peer.pc !== pc) return;
+    send('sig', { from:myId, to:peer.id, kind:'sdp', g:peer.gen, sdp: pc.localDescription.toJSON() });
+  } catch (e) { log('offer err', e); }
+}
+
+/* rebuild a stuck connection from scratch */
+function rebuild(peer, why){
+  log('rebuild', peer.id, why);
+  peer.attempts++;
+  if (peer.offerer) {
+    peer.gen++;
+    buildPc(peer);
+    startOffer(peer);
+  } else if (Date.now() - peer.lastReq > 5000) {
+    peer.lastReq = Date.now();
+    send('sig', { from:myId, to:peer.id, kind:'reset' });   // ask the offerer to start over
+  }
+  peer.badSince = Date.now();
+  paintConn(peer);
+}
+
+function paintConn(peer){
+  const t = peer.tile; if (!t || !peer.pc) return;
+  const s = peer.pc.connectionState;
+  t.classList.toggle('connecting', s !== 'connected');
+  const label = t.querySelector('.status span');
+  label.textContent = peer.attempts >= 3 ? 'can\'t reach this player — retrying'
+    : s === 'disconnected' || s === 'failed' || peer.attempts ? 'reconnecting…' : 'connecting…';
+}
+
+/* watchdog: anything not connected for ~10s gets rebuilt; keeps trying forever */
+setInterval(() => {
+  if (!joined) return;
+  const now = Date.now();
+  for (const peer of peers.values()) {
+    const st = peer.pc ? peer.pc.connectionState : 'closed';
+    if (st === 'connected') { peer.badSince = 0; continue; }
+    if (!peer.badSince) { peer.badSince = now; paintConn(peer); continue; }
+    const wait = peer.attempts >= 3 ? 20000 : 10000;
+    if (now - peer.badSince > wait) rebuild(peer, 'stuck ' + (peer.pc && peer.pc.connectionState));
+  }
+}, 2000);
 
 async function onSignal(m){
   if (!joined || !m || m.to !== myId || m.from === myId) return;
   const peer = ensurePeer(m.from);
-  const pc = peer.pc;
   try {
+    if (m.kind === 'reset') {
+      if (peer.offerer && (!peer.lastReset || Date.now() - peer.lastReset > 3000)) { peer.lastReset = Date.now(); rebuild(peer, 'asked by peer'); }
+      return;
+    }
     if (m.kind === 'sdp') {
       if (m.sdp.type === 'offer') {
         if (peer.offerer) return;
+        const g = m.g || 0;
+        if (g < peer.gen) return;                             // old attempt
+        if (g > peer.gen || peer.pc.signalingState === 'closed' || (peer.pc.remoteDescription && peer.pc.connectionState !== 'connected' && g !== peer.gen)) {
+          peer.gen = g; buildPc(peer);                        // fresh connection for the new attempt
+        }
+        const pc = peer.pc;
         await pc.setRemoteDescription(m.sdp);
         for (const t of pc.getTransceivers()) {
           const k = t.receiver.track.kind;
@@ -823,13 +927,18 @@ async function onSignal(m){
           await t.sender.replaceTrack(k === 'audio' ? micTrack : outVideo());
         }
         await pc.setLocalDescription();
-        send('sig', { from:myId, to:m.from, kind:'sdp', sdp: pc.localDescription.toJSON() });
+        send('sig', { from:myId, to:m.from, kind:'sdp', g:peer.gen, sdp: pc.localDescription.toJSON() });
+        for (const c of peer.pendingIce.splice(0)) await pc.addIceCandidate(c).catch(()=>{});
       } else if (m.sdp.type === 'answer') {
+        if ((m.g || 0) !== peer.gen) return;
+        const pc = peer.pc;
         if (pc.signalingState !== 'have-local-offer') return;
         await pc.setRemoteDescription(m.sdp);
+        for (const c of peer.pendingIce.splice(0)) await pc.addIceCandidate(c).catch(()=>{});
       }
-      for (const c of peer.pendingIce.splice(0)) await pc.addIceCandidate(c).catch(()=>{});
     } else if (m.kind === 'ice') {
+      if ((m.g || 0) !== peer.gen) return;
+      const pc = peer.pc;
       if (pc.remoteDescription) await pc.addIceCandidate(m.c).catch(()=>{});
       else peer.pendingIce.push(m.c);
     }
@@ -942,7 +1051,7 @@ function layout(){
   const W = Math.max(wrap.width, 100), H = Math.max(wrap.height, 100);
   const mobile = innerWidth <= 640;
   const gap = mobile ? 8 : 12;
-  if (mobile && n <= 3 && !pinnedId) { g.style.gridTemplateColumns = '1fr'; g.style.gridAutoRows = `${Math.floor((H - gap*(n-1))/n)}px`; return; }
+  if (mobile && n <= 3 && !pinnedId) { g.style.gridTemplateColumns = 'minmax(0,1fr)'; g.style.gridAutoRows = `${Math.floor((H - gap*(n-1))/n)}px`; return; }
   g.style.gridAutoRows = '';
   let best = { cols:1, w:0 };
   for (let cols = 1; cols <= n; cols++) {
@@ -961,8 +1070,10 @@ function watchLevel(peer, track){
   if (peer.levelTimer) clearInterval(peer.levelTimer);
   const read = meter(track); let hold = 0;
   peer.levelTimer = setInterval(() => {
-    if (read() > 0.035 && peer.mic) hold = 4; else if (hold) hold--;
+    const lv = read();
+    if (lv > 0.035 && peer.mic) hold = 4; else if (hold) hold--;
     peer.tile?.classList.toggle('speaking', hold > 0);
+    if (peer === self) $('micBtn').style.setProperty('--lvl', micOn ? Math.min(1, lv * 8).toFixed(2) : 0);
   }, 120);
 }
 
@@ -1050,10 +1161,14 @@ function stopShare(){
   replaceAll('video', outVideo());
   afterToggle();
 }
-function afterToggle(){ syncBarButtons(); paintSelf(); if (joined) broadcastState(); }
+function flip(el){ el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip'); }
+document.querySelectorAll('.bar .cb').forEach(b => b.addEventListener('pointerdown', () => {
+  const r = document.createElement('span'); r.className = 'rip'; b.appendChild(r); setTimeout(() => r.remove(), 520);
+}));
+function afterToggle(){ const before = ['micBtn','camBtn','shareBtn'].map(id => $(id).className); syncBarButtons(); ['micBtn','camBtn','shareBtn'].forEach((id,i) => { if ($(id).className.replace(' flip','') !== before[i].replace(' flip','')) flip($(id)); }); paintSelf(); if (joined) broadcastState(); }
 function syncBarButtons(){
   const m = $('micBtn'), c = $('camBtn'), s = $('shareBtn');
-  m.classList.toggle('off', !micOn); setIcon(m, micOn?'i-mic':'i-micoff'); m.querySelector('span').textContent = micOn ? 'Mic' : 'Muted';
+  m.classList.toggle('off', !micOn); setIcon(m, micOn?'i-mic':'i-micoff'); m.querySelector('span:not(.ring)').textContent = micOn ? 'Mic' : 'Muted';
   m.dataset.tip = (micOn?'Mute':'Unmute')+' · Ctrl+D';
   c.classList.toggle('off', !camOn); setIcon(c, camOn?'i-cam':'i-camoff'); c.querySelector('span').textContent = camOn ? 'Camera' : 'Cam off';
   c.dataset.tip = (camOn?'Turn off':'Turn on')+' camera · Ctrl+E';
